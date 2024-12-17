@@ -8,7 +8,6 @@ class Solution {
                 possAngle[index] = ((dots[i][0]*100 - dots[j][0]*100)) / (dots [i][1] - dots[j][1]);
             index++;
             }
-            
         }
 
         for (int i = 0; i < 2; i++) {
@@ -16,9 +15,6 @@ class Solution {
                 return 1;
             }
         }
-        
-        
-        
         
         return answer;
     }
