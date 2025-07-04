@@ -1,41 +1,28 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class Solution {
     public int solution(String[] want, int[] number, String[] discount) {
         int answer = 0;
-        Map<String, Integer> bucket = new HashMap<>();
-        for (int i = 0; i < want.length; i++) {
-            bucket.put(want[i], number[i]);
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i=0; i<want.length; i++) {
+            while (number[i]-- > 0) {
+                list.add(want[i]);
+            }
         }
 
-        for (int j = 0; j < 10; j++) {
-            if (bucket.get(discount[j]) != null) {
-                bucket.compute(discount[j],(k, v) -> v - 1);
+        for (int i=0; i<discount.length-list.size()+1;i ++) {
+            ArrayList<String> l = (ArrayList<String>) list.clone();
+            for (int j=i; j<i+list.size(); j++) {
+                if (l.contains(discount[j])) {
+                    l.remove(discount[j]);
+                } else {
+                    break;
+                }
             }
-        }
-        if (check(bucket)) {
-            answer++;
-        }
-
-        for (int i = 1; i + 9 < discount.length; i++) {
-            if (bucket.get(discount[i - 1]) != null) {
-                bucket.compute(discount[i - 1], (k, v) -> v + 1);
-            }
-            if (bucket.get(discount[i + 9]) != null) {
-                bucket.compute(discount[i + 9], (k, v) -> v - 1);
-            }
-            if (check(bucket)) {
-                answer++;
-            }
+            answer += l.size()==0 ? 1 : 0;
         }
 
         return answer;
-    }
-
-    public boolean check(Map<String, Integer> bucket) {
-        return bucket.values()
-                .stream()
-                .allMatch(v -> v <= 0);
     }
 }
